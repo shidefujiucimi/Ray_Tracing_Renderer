@@ -1,5 +1,5 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef INTERSECTION_H
+#define INTERSECTION_H
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,6 +24,7 @@ private:
 
 
 };
+
 class Sphere {
 public:
 	float radius;
@@ -88,13 +89,7 @@ private:
 
 };
 
-//BVH 加速结构(Bounding volume hierarchy
-class BVH {
-public:
 
-private:
-
-};
 
 
 

@@ -137,7 +137,7 @@
     <ClInclude Include="headfiles\light.h" />
     <ClInclude Include="headfiles\material.h" />
     <ClInclude Include="headfiles\ray.h" />
-    <ClInclude Include="headfiles\scene.h" />
+    <ClInclude Include="headfiles\intersection.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

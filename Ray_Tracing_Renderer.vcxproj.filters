@@ -26,7 +26,7 @@
     <ClInclude Include="headfiles\camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="headfiles\scene.h">
+    <ClInclude Include="headfiles\intersection.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="headfiles\light.h">

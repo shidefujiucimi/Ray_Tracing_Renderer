@@ -1,9 +1,9 @@
 #include <iostream>
-#include<fstream>
+#include <fstream>
 
 #include <ray.h>
 #include <camera.h>
-#include <scene.h>
+
 using namespace std;
 //the amount of rays per pixel
 #define amount_of_rays_per_pixel 1
@@ -24,7 +24,7 @@ void main() {
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
     
 }
-//calulate position of per pixel
+//逐像素调用ray的shade函数
 void RenderToimage(Camera camera, Scene scene,const char*_Filename) {
     ofstream outimage;
     outimage.open(_Filename);
