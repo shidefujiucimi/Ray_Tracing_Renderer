@@ -35,5 +35,8 @@
     <ClInclude Include="headfiles\material.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="headfiles\hittable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

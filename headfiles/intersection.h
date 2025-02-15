@@ -1,45 +1,10 @@
 #ifndef INTERSECTION_H
 #define INTERSECTION_H
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <ray.h>
-//这个头文件用于处理intersection问题
-class PointOfIntersection {
-public:
-	bool existance;
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec3 albedo;
-	PointOfIntersection(glm::vec3 positioninput, glm::vec3 normalinput, glm::vec3 albedoinput, bool existanceinput)
-		: position(positioninput), normal(normalinput), albedo(albedoinput), existance(existanceinput){
-		
-	}
-	PointOfIntersection() {
-		existance=false;
-		position = glm::vec3(0,0,0);
-		normal = glm::vec3(0, 0, 0);
-		albedo = glm::vec3(0, 0, 0);
-	}
-private:
 
 
-};
-
-class Hit_record {
-public:
-	glm::vec3 position;
-	glm::vec3 normal;
-	double t;
-};
-
-class Hittable {
-public:
-	virtual ~Hittable() = default;
-	virtual bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const = 0;
-};
 
 class Sphere :public Hittable {
 public:

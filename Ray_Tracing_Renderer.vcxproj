@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headfiles\camera.h" />
+    <ClInclude Include="headfiles\hittable.h" />
     <ClInclude Include="headfiles\light.h" />
     <ClInclude Include="headfiles\material.h" />
     <ClInclude Include="headfiles\ray.h" />
