@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
-
+#include <ray.h>
 //这个头文件用于处理intersection问题
 class PointOfIntersection {
 public:
@@ -28,7 +28,20 @@ private:
 
 };
 
-class Sphere {
+class Hit_record {
+public:
+	glm::vec3 position;
+	glm::vec3 normal;
+	double t;
+};
+
+class Hittable {
+public:
+	virtual ~Hittable() = default;
+	virtual bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const = 0;
+};
+
+class Sphere :public Hittable {
 public:
 	float radius;
 	glm::vec3 center;
@@ -36,6 +49,12 @@ public:
 	Sphere(glm::vec3 centerinput, float radiusinput) : center(centerinput), radius(radiusinput) {
 
 	}
+	bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const override {
+		return true;
+	}
+	
+
+
 	float hittable(glm::vec3 orign,glm::vec3 direction) const {//找到光线与球相交的t
 		glm::vec3 oc = center - orign;
 		float a = glm::dot(direction, direction);
@@ -62,6 +81,7 @@ public:
 private:
 
 };
+
 class Scene {
 public:
 	std::vector<Sphere> objects;

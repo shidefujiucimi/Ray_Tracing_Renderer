@@ -64,3 +64,21 @@ static void Raygenerator(glm::vec3 camerapos,glm::vec3 pixelpos) {
     glm::vec3 direction = pixelpos - camerapos;
     rays[0] = Ray(camerapos, direction);
 }
+
+//shade
+glm::vec3 Shade(Scene& scene) const {
+    glm::vec3 color;
+    PointOfIntersection pointofintersection = scene.searchintersection(orign, direction);
+    if (pointofintersection.existance == false)
+        color = glm::vec3(0.0, 0.0, 0.0);
+    else {
+        color = glm::vec3(
+            (pointofintersection.normal.r + 1.0) * 0.5,
+            (pointofintersection.normal.g + 1.0) * 0.5,
+            (pointofintersection.normal.b + 1.0) * 0.5
+        );
+
+    }
+
+    return color;
+}
