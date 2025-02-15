@@ -17,7 +17,9 @@ void main() {
     Camera maincamera(glm::vec3(0.0,0.0,0.0));
     Scene mainscene(
         {
-            Sphere(glm::vec3(0.0, 0.0, -10.0), 3.0) 
+            Sphere(glm::vec3(0.0, -100.5, -1.0), 100),
+            Sphere(glm::vec3(0.0, 0.0, -1.0), 0.5),
+            
         } 
     );
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
@@ -36,8 +38,8 @@ void RenderToimage(Camera camera, Scene scene,const char*_Filename) {
         for (int i = 0; i < camera.resolutionx; i++) {
             color = glm::vec3(0.0, 0.0, 0.0);
             Raygenerator(camera.Position, pixelposition);
-            for (int i = 0; i < amount_of_rays_per_pixel; i++) {
-                color += rays[i].Shade(scene);
+            for (int k = 0; k < amount_of_rays_per_pixel; k++) {
+                color += rays[k].Shade(scene);
             }
             color /= amount_of_rays_per_pixel;
             

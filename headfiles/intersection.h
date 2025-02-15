@@ -13,12 +13,15 @@ public:
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec3 albedo;
-	PointOfIntersection(glm::vec3 positioninput, glm::vec3 normalinput, glm::vec3 albedoinput)
-		: position(positioninput), normal(normalinput), albedo(albedoinput){
+	PointOfIntersection(glm::vec3 positioninput, glm::vec3 normalinput, glm::vec3 albedoinput, bool existanceinput)
+		: position(positioninput), normal(normalinput), albedo(albedoinput), existance(existanceinput){
 		
 	}
 	PointOfIntersection() {
-
+		existance=false;
+		position = glm::vec3(0,0,0);
+		normal = glm::vec3(0, 0, 0);
+		albedo = glm::vec3(0, 0, 0);
 	}
 private:
 
