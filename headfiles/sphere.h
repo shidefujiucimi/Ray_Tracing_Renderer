@@ -29,6 +29,8 @@ public:
 		rec.t = root;
 		rec.position = r.at(rec.t);
 		rec.normal = (rec.position - center) / radius;
+		glm::vec3 outward_normal = (rec.position - center) / radius;
+		rec.set_face_normal(r, outward_normal);
 
 		return true;
 	}

@@ -6,6 +6,12 @@ public:
 	glm::vec3 position;
 	glm::vec3 normal;
 	double t;
+	bool front_face;
+
+	void set_face_normal(const Ray& r, const glm::vec3& outward_normal) {
+		front_face = dot(r.Direction(), outward_normal) < 0;
+		normal = front_face ? outward_normal : -outward_normal;
+	}
 };
 
 class Hittable {
