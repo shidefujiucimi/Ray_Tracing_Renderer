@@ -130,19 +130,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hittable_list.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headfiles\camera.h" />
     <ClInclude Include="headfiles\common_header.h" />
     <ClInclude Include="headfiles\hittable.h" />
+    <ClInclude Include="headfiles\hittable_list.h" />
     <ClInclude Include="headfiles\light.h" />
     <ClInclude Include="headfiles\material.h" />
     <ClInclude Include="headfiles\ray.h" />
     <ClInclude Include="headfiles\intersection.h" />
     <ClInclude Include="headfiles\sphere.h" />
-    <ClInclude Include="hittable_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="hittable_list.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headfiles\ray.h">
@@ -44,10 +41,10 @@
     <ClInclude Include="headfiles\sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="hittable_list.h">
+    <ClInclude Include="headfiles\common_header.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="headfiles\common_header.h">
+    <ClInclude Include="headfiles\hittable_list.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

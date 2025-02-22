@@ -1,33 +1,30 @@
-#include <iostream>
-#include <fstream>
-
-#include <ray.h>
+#include <common_header.h>
 #include <camera.h>
+#include <hittable_list.h>
+#include <sphere.h>
 
 using namespace std;
-//the amount of rays per pixel
+
 #define amount_of_rays_per_pixel 1
-//从每个pixel打出的rays
 static Ray rays[amount_of_rays_per_pixel];
 
-void RenderToimage(Camera camera, Scene scene, const char* _Filename);
+void RenderToimage(Camera camera, hittable_list scene, const char* _Filename);
 void Raygenerator(glm::vec3 camerapos, glm::vec3 pixelpos);
+glm::vec3 Shade(Ray& ray, double ray_tmin, double ray_tmax, hittable_list& scene);
 
 void main() {
     Camera maincamera(glm::vec3(0.0,0.0,0.0));
-    Scene mainscene(
-        {
-            Sphere(glm::vec3(0.0, -100.5, -1.0), 100),
-            Sphere(glm::vec3(0.0, 0.0, -1.0), 0.5),
-            
-        } 
-    );
+
+    hittable_list mainscene;
+    mainscene.add(make_shared<Sphere>(glm::vec3(0, 0, -1), 0.5));
+    mainscene.add(make_shared<Sphere>(glm::vec3(0, -100.5, -1), 100));
+
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
     
 }
-//逐像素调用ray的shade函数
-void RenderToimage(Camera camera, Scene scene,const char*_Filename) {
+//逐像素调用shade函数
+void RenderToimage(Camera camera, hittable_list scene,const char*_Filename) {
     ofstream outimage;
     outimage.open(_Filename);
     glm::vec3 color;//color的范围是（0,1）
@@ -39,7 +36,7 @@ void RenderToimage(Camera camera, Scene scene,const char*_Filename) {
             color = glm::vec3(0.0, 0.0, 0.0);
             Raygenerator(camera.Position, pixelposition);
             for (int k = 0; k < amount_of_rays_per_pixel; k++) {
-                color += rays[k].Shade(scene);
+                color += Shade(rays[k],0.0,infinity, scene);
             }
             color /= amount_of_rays_per_pixel;
             
@@ -66,16 +63,16 @@ static void Raygenerator(glm::vec3 camerapos,glm::vec3 pixelpos) {
 }
 
 //shade
-glm::vec3 Shade(Scene& scene) const {
+glm::vec3 Shade(Ray& ray,double ray_tmin,double ray_tmax, hittable_list& scene) {
     glm::vec3 color;
-    PointOfIntersection pointofintersection = scene.searchintersection(orign, direction);
-    if (pointofintersection.existance == false)
+    Hit_record hit_record;
+    if (scene.hit(ray, ray_tmin, ray_tmax, hit_record) == false)
         color = glm::vec3(0.0, 0.0, 0.0);
     else {
         color = glm::vec3(
-            (pointofintersection.normal.r + 1.0) * 0.5,
-            (pointofintersection.normal.g + 1.0) * 0.5,
-            (pointofintersection.normal.b + 1.0) * 0.5
+            (hit_record.normal.r + 1.0) * 0.5,
+            (hit_record.normal.g + 1.0) * 0.5,
+            (hit_record.normal.b + 1.0) * 0.5
         );
 
     }
