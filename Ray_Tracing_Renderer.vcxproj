@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\VS project\Ray_Tracing_Renderer\headfiles;$(IncludePath)</IncludePath>
+    <IncludePath>D:\VS project\Ray_Tracing_Renderer\header;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,10 +129,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headfiles\camera.h" />
     <ClInclude Include="headfiles\common_header.h" />
