@@ -66,15 +66,16 @@ static void Raygenerator(glm::vec3 camerapos,glm::vec3 pixelpos) {
 glm::vec3 Shade(const Ray& ray,double ray_tmin,double ray_tmax, const hittable_list& scene) {
     glm::vec3 color;
     Hit_record hit_record;
-    if (scene.hit(ray, ray_tmin, ray_tmax, hit_record) == false)
+    if (scene.hit(ray, ray_tmin, ray_tmax, hit_record)) {
+        color = glm::vec3(
+            (hit_record.normal.r + 1.0) * 0.5,
+            (hit_record.normal.g + 1.0) * 0.5,
+            (hit_record.normal.b + 1.0) * 0.5
+        );
+    } 
+    else 
         color = glm::vec3(0.0, 0.0, 0.0);
-    else {
-            color = glm::vec3(
-                (hit_record.normal.r + 1.0) * 0.5,
-                (hit_record.normal.g + 1.0) * 0.5,
-                (hit_record.normal.b + 1.0) * 0.5
-            );
-    }
+    
 
     return color;
 }

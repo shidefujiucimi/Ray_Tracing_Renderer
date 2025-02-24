@@ -8,16 +8,18 @@ public:
 	}
 	bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const override {
 		glm::vec3 oc = center - r.origin;
-		auto a = dot(r.direction, r.direction);
-		auto b = -2.0 * dot(r.direction, oc);
-		auto c = dot(oc, oc) - radius * radius;
-		auto discriminant = b * b - 4 * a * c;
+		double a = dot(r.direction, r.direction);
+		double b = -2.0 * dot(r.direction, oc);
+		double c = dot(oc, oc) - radius * radius;
+		double discriminant = b * b - 4 * a * c;
 		double root = 0.0;
 		if (discriminant < 0) {
 			return false;
 		}
 		else {
-			root=(-b - std::sqrt(discriminant)) / (2.0 * a);
+			root = (-b - std::sqrt(discriminant)) / (2.0 * a);
+			if (root <= ray_tmin || ray_tmax <= root)
+				return false;	
 		}
 	
 		rec.t = root;
@@ -27,6 +29,7 @@ public:
 		rec.set_face_normal(r, outward_normal);
 
 		return true;
+
 	}
 
 private:
