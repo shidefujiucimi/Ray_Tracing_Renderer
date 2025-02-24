@@ -5,6 +5,8 @@
 #include <glm/gtc/type_ptr.hpp>
 class Ray {
 public:
+	glm::vec3 origin;
+	glm::vec3 direction;
 	Ray(glm::vec3 origininput,glm::vec3 directioninput):origin(origininput),direction(directioninput) {
 
 	}
@@ -15,15 +17,8 @@ public:
 	glm::vec3 at(float t) const{
 		return origin + t * direction;
 	}
-	glm::vec3 Origin() const {
-		return origin;
-	}
-	glm::vec3 Direction() const {
-		return direction;
-	}
 private:
-	glm::vec3 origin;
-	glm::vec3 direction;
+	
 };
 
 #endif

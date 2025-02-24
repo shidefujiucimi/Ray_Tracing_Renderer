@@ -7,9 +7,12 @@ public:
 	glm::vec3 normal;
 	double t;
 	bool front_face;
-
+	Hit_record(){
+		t = 0.0;
+		front_face=false;
+	}
 	void set_face_normal(const Ray& r, const glm::vec3& outward_normal) {
-		front_face = dot(r.Direction(), outward_normal) < 0;
+		front_face = dot(r.direction, outward_normal) < 0;
 		normal = front_face ? outward_normal : -outward_normal;
 	}
 };

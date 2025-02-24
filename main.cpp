@@ -10,14 +10,14 @@ static Ray rays[amount_of_rays_per_pixel];
 
 void RenderToimage(Camera camera, hittable_list scene, const char* _Filename);
 void Raygenerator(glm::vec3 camerapos, glm::vec3 pixelpos);
-glm::vec3 Shade(Ray& ray, double ray_tmin, double ray_tmax, hittable_list& scene);
+glm::vec3 Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene);
 
 void main() {
     Camera maincamera(glm::vec3(0.0,0.0,0.0));
 
     hittable_list mainscene;
-    mainscene.add(make_shared<Sphere>(glm::vec3(0, 0, -1), 0.5));
-    mainscene.add(make_shared<Sphere>(glm::vec3(0, -100.5, -1), 100));
+    mainscene.add(make_shared<Sphere>(glm::vec3(0, 0, -5), 2));
+    mainscene.add(make_shared<Sphere>(glm::vec3(0, -102, -5), 100));
 
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
     RenderToimage(maincamera, mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
@@ -63,18 +63,17 @@ static void Raygenerator(glm::vec3 camerapos,glm::vec3 pixelpos) {
 }
 
 //shade
-glm::vec3 Shade(Ray& ray,double ray_tmin,double ray_tmax, hittable_list& scene) {
+glm::vec3 Shade(const Ray& ray,double ray_tmin,double ray_tmax, const hittable_list& scene) {
     glm::vec3 color;
     Hit_record hit_record;
     if (scene.hit(ray, ray_tmin, ray_tmax, hit_record) == false)
         color = glm::vec3(0.0, 0.0, 0.0);
     else {
-        color = glm::vec3(
-            (hit_record.normal.r + 1.0) * 0.5,
-            (hit_record.normal.g + 1.0) * 0.5,
-            (hit_record.normal.b + 1.0) * 0.5
-        );
-
+            color = glm::vec3(
+                (hit_record.normal.r + 1.0) * 0.5,
+                (hit_record.normal.g + 1.0) * 0.5,
+                (hit_record.normal.b + 1.0) * 0.5
+            );
     }
 
     return color;
