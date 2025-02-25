@@ -30,7 +30,7 @@ public:
     glm::vec3 pixel00_loc;
     float canvas_width;
     float canvas_height;
-
+    
     float pixel_width;
     float pixel_height;
     
