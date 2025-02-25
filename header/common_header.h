@@ -66,5 +66,11 @@ inline glm::vec3 random_unit_vec3_on_hemisphere(glm::vec3 normal) {
     else
         return -on_unit_sphere;
 }
+inline double linear_to_gamma(double linear_component)
+{
+    if (linear_component > 0)
+        return std::sqrt(linear_component);
 
+    return 0;
+}
 #endif

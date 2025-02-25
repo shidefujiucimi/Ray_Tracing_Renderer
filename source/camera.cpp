@@ -122,10 +122,18 @@ glm::vec3 Camera::calRight(glm::vec3 Front) {
     return glm::normalize(glm::cross(up, Front));
 }
 void Camera::write_color(const glm::vec3& color, ofstream& outimage) {
+    double r = color.r;
+    double g = color.g;
+    double b = color.b;
 
-    int ir = int(256 * glm::clamp(double(color.r), 0.0, 1.0));
-    int ig = int(256 * glm::clamp(double(color.g), 0.0, 1.0));
-    int ib = int(256 * glm::clamp(double(color.b), 0.0, 1.0));
+    // Apply a linear to gamma transform for gamma 2
+    r = linear_to_gamma(r);
+    g = linear_to_gamma(g);
+    b = linear_to_gamma(b);
+
+    int ir = int(256 * glm::clamp(r, 0.0, 0.999));
+    int ig = int(256 * glm::clamp(g, 0.0, 0.999));
+    int ib = int(256 * glm::clamp(b, 0.0, 0.999));
 
     outimage << ir << ' ' << ig << ' ' << ib << '\n';
 }
@@ -141,8 +149,8 @@ glm::vec3 Camera::Shade(const Ray& ray, double ray_tmin, double ray_tmax, const 
             //(hit_record.normal.g + 1.0) * 0.5,
             //(hit_record.normal.b + 1.0) * 0.5
         //);
-
-        glm::vec3 direction = random_unit_vec3_on_hemisphere(hit_record.normal);
+        glm::vec3 direction = hit_record.normal + random_unit_vec3();
+        //glm::vec3 direction = random_unit_vec3_on_hemisphere(hit_record.normal);
         return glm::vec3(0.5) * Shade(Ray(hit_record.position, direction), ray_tmin, ray_tmax, scene,depth-1);
     }
 
