@@ -41,5 +41,12 @@ inline double random_double(double min,double max) {
     static std::mt19937 generator;
     return distribution(generator);
 }
+static glm::vec3 random_vec3() {
+    return glm::vec3(random_double(), random_double(), random_double());
+}
+
+static glm::vec3 random_vec3(double min, double max) {
+    return glm::vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+}
 
 #endif
