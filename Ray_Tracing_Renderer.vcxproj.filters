@@ -42,5 +42,37 @@
     <ClInclude Include="headfiles\hittable_list.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="header\camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\common_header.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\hittable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\hittable_list.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\sphere.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\matrial.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MSAA.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
