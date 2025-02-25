@@ -3,7 +3,7 @@
 #include <hittable.h>
 class Sphere :public Hittable {
 public:
-	Sphere(glm::vec3 centerinput, float radiusinput) : center(centerinput), radius(radiusinput) {
+	Sphere(glm::vec3 centerinput, float radiusinput, shared_ptr<material> matinput) : center(centerinput), radius(radiusinput) ,mat(matinput){
 
 	}
 	bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const override {
@@ -27,6 +27,7 @@ public:
 		rec.normal = (rec.position - center) / radius;
 		glm::vec3 outward_normal = (rec.position - center) / radius;
 		rec.set_face_normal(r, outward_normal);
+		rec.mat = mat;
 
 		return true;
 
@@ -35,7 +36,7 @@ public:
 private:
 	float radius;
 	glm::vec3 center;
-	glm::vec3 albedo;
+	shared_ptr<material> mat;
 };
 
 

@@ -1,10 +1,12 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
-#include <ray.h>
+#include <common_header.h>
+class material;
 class Hit_record {
 public:
 	glm::vec3 position;
 	glm::vec3 normal;
+	shared_ptr<material> mat;
 	double t;
 	bool front_face;
 	Hit_record(){
