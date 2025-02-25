@@ -2,25 +2,20 @@
 #include <camera.h>
 #include <hittable_list.h>
 #include <sphere.h>
-
 using namespace std;
 
-//#define amount_of_rays_per_pixel 1
-//static Ray rays[amount_of_rays_per_pixel];
-
-
 void main() {
-    
-
     hittable_list mainscene;
     //material
-    auto material_ground = make_shared<lambertian>(glm::vec3(0.8, 0.8, 0.0));
-    auto material_center = make_shared<lambertian>(glm::vec3(0.1, 0.2, 0.5));
-    //auto material_left = make_shared<metal>(color(0.8, 0.8, 0.8));
-    //auto material_right = make_shared<metal>(color(0.8, 0.6, 0.2));
+    shared_ptr<lambertian> material_ground = make_shared<lambertian>(glm::vec3(0.8, 0.8, 0.0));
+    shared_ptr<lambertian> material_center = make_shared<lambertian>(glm::vec3(0.1, 0.2, 0.5));
+    shared_ptr<metal> material_left = make_shared<metal>(glm::vec3(0.3, 0.8, 0.5),0.3);
+    shared_ptr<metal> material_right = make_shared<metal>(glm::vec3(0.8, 0.6, 0.2),0.7);
     //geometry
     mainscene.add(make_shared<Sphere>(glm::vec3(0, 0, -5), 2, material_center));
     mainscene.add(make_shared<Sphere>(glm::vec3(0, -102, -5), 100, material_ground));
+    mainscene.add(make_shared<Sphere>(glm::vec3(-5, 0, -5), 2, material_left));
+    mainscene.add(make_shared<Sphere>(glm::vec3(5, 0, -5), 2, material_right));
 
     Camera maincamera(glm::vec3(0.0, 0.0, 0.0));
 
