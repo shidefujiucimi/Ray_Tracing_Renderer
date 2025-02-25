@@ -17,9 +17,12 @@ void main() {
     mainscene.add(make_shared<Sphere>(glm::vec3(0, -102, -5), 100));
 
     maincamera.AA = true;
-    maincamera.samples_per_pixel = 8;
+    maincamera.samples_per_pixel = 4;
+    maincamera.max_depth = 100;
     maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
-    maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
+    //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
+
+    //random_unit_vec3();
 
 }
 

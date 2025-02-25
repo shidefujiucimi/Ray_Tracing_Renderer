@@ -5,10 +5,11 @@ void Camera::multisample(int i, int j, ofstream& outimage, hittable_list scene) 
     glm::vec3 pixel_color(0, 0, 0);
     for (int sample = 0; sample < samples_per_pixel; sample++) {
         Ray r = get_ray(i, j);
-        pixel_color += Shade(r, 0.0, infinity, scene);
+        pixel_color += Shade(r, 0.001, infinity, scene,max_depth);
 
     }
     write_color(pixel_color/ float(samples_per_pixel), outimage);
+    
 }
 Ray Camera::get_ray(int i, int j) const {
     // Construct a camera ray originating from the origin and directed at randomly sampled

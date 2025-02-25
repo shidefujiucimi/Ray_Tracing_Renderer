@@ -8,6 +8,11 @@
 #include <limits>
 #include <memory>
 
+// Common Headers
+#include <ray.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // C++ Std Usings
 
@@ -25,11 +30,6 @@ inline double degrees_to_radians(double degrees) {
     return degrees * pi / 180.0;
 }
 
-// Common Headers
-#include <ray.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 inline double random_double() {
     static std::uniform_real_distribution<double> distribution(0.0, 1.0);
@@ -44,9 +44,27 @@ inline double random_double(double min,double max) {
 static glm::vec3 random_vec3() {
     return glm::vec3(random_double(), random_double(), random_double());
 }
-
+//Return a random vector that falls within the unit cube
 static glm::vec3 random_vec3(double min, double max) {
     return glm::vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+}
+//Return a random vector that falls within the standard sphere
+inline glm::vec3 random_unit_vec3() {
+    while (true) {
+        glm::vec3 p = random_vec3(-1, 1);
+        float lensq =glm::length(p);
+        //std::cout << lensq << std::endl;
+        if (1e-160 < lensq && lensq <= 1)
+            return p / lensq;
+    }
+}
+//Return a random vector that falls within the unit hemisphere
+inline glm::vec3 random_unit_vec3_on_hemisphere(glm::vec3 normal) {
+    glm::vec3 on_unit_sphere = random_unit_vec3();
+    if (dot(on_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
+        return on_unit_sphere;
+    else
+        return -on_unit_sphere;
 }
 
 #endif

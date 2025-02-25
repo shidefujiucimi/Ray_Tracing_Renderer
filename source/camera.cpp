@@ -93,8 +93,9 @@ void Camera::RenderToimage(hittable_list& scene, const char* _Filename) {
         for (int j = 0; j < resolutiony; j++) {
             for (int i = 0; i < resolutionx; i++) {
                 glm::vec3 direction = pixelposition - Position;
-                glm::vec3 color = Shade(Ray(Position, direction), 0.0, infinity, scene);
+                glm::vec3 color = Shade(Ray(Position, direction), 0.001, infinity, scene, max_depth);
                 write_color(color, outimage);
+                //cout << i <<" " << j << endl;
 
                 pixelposition += (canvas_width / resolutionx) * Right;
             }
@@ -128,19 +129,26 @@ void Camera::write_color(const glm::vec3& color, ofstream& outimage) {
 
     outimage << ir << ' ' << ig << ' ' << ib << '\n';
 }
-glm::vec3 Camera::Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene) {
-    glm::vec3 color;
+glm::vec3 Camera::Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene,int depth) {
+    // If we've exceeded the ray bounce limit, no more light is gathered.
+    if (depth <= 0)
+        return glm::vec3(0, 0, 0);
+
     Hit_record hit_record;
     if (scene.hit(ray, ray_tmin, ray_tmax, hit_record)) {
-        color = glm::vec3(
-            (hit_record.normal.r + 1.0) * 0.5,
-            (hit_record.normal.g + 1.0) * 0.5,
-            (hit_record.normal.b + 1.0) * 0.5
-        );
+        //color = glm::vec3(
+            //(hit_record.normal.r + 1.0) * 0.5,
+            //(hit_record.normal.g + 1.0) * 0.5,
+            //(hit_record.normal.b + 1.0) * 0.5
+        //);
+
+        glm::vec3 direction = random_unit_vec3_on_hemisphere(hit_record.normal);
+        return glm::vec3(0.5) * Shade(Ray(hit_record.position, direction), ray_tmin, ray_tmax, scene,depth-1);
     }
-    else
-        color = glm::vec3(0.0, 0.0, 0.0);
 
+    glm::vec3 unit_direction = glm::normalize(ray.direction);
+    float a = 0.5 * (unit_direction.y + 1.0);
+    return float(1.0 - a) * glm::vec3(1.0, 1.0, 1.0) + a * glm::vec3(0.5, 0.7, 1.0);
 
-    return color;
+        
 }

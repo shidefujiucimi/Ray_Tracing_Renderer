@@ -35,6 +35,7 @@ public:
     float pixel_height;
     
     int samples_per_pixel=1;
+    int max_depth = 10;//Maxinum number of child rays
 
     bool AA = false;
 
@@ -51,7 +52,7 @@ public:
 private:
     glm::vec3 calRight(glm::vec3 Front);
     void write_color(const glm::vec3& color, ofstream& outimage);
-    glm::vec3 Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene);
+    glm::vec3 Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene,int depth);
     void multisample(int i,int j, ofstream& outimage, hittable_list scene);
     Ray get_ray(int i, int j) const;
     glm::vec3 sample_square() const;
