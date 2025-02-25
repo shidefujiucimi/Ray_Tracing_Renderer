@@ -73,7 +73,7 @@ inline double linear_to_gamma(double linear_component)
 
     return 0;
 }
-bool near_zero(glm::vec3 e){
+inline bool near_zero(glm::vec3 e){
     // Return true if the vector is close to zero in all dimensions.
     auto s = 1e-8;
     return (std::fabs(e.x) < s) && (std::fabs(e.y) < s) && (std::fabs(e.z) < s);

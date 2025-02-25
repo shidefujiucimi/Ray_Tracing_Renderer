@@ -9,6 +9,7 @@
 
 #include <hittable_list.h>
 #include <common_header.h>
+#include <matrial.h>
 using namespace std;
 class Camera
 {

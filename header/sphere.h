@@ -3,7 +3,7 @@
 #include <hittable.h>
 class Sphere :public Hittable {
 public:
-	Sphere(glm::vec3 centerinput, float radiusinput, shared_ptr<material> matinput) : center(centerinput), radius(radiusinput) ,mat(matinput){
+	Sphere(glm::vec3 centerinput, float radiusinput, shared_ptr<material> matinput) : center(centerinput), radius(std::fmax(0, radiusinput)) ,mat(matinput){
 
 	}
 	bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const override {

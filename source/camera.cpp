@@ -1,4 +1,5 @@
 #include <camera.h>
+
 using namespace std;
 
 Camera::Camera(glm::vec3 Positioninput) : Position(Positioninput) {
@@ -149,9 +150,14 @@ glm::vec3 Camera::Shade(const Ray& ray, double ray_tmin, double ray_tmax, const 
             //(hit_record.normal.g + 1.0) * 0.5,
             //(hit_record.normal.b + 1.0) * 0.5
         //);
-        glm::vec3 direction = hit_record.normal + random_unit_vec3();
-        //glm::vec3 direction = random_unit_vec3_on_hemisphere(hit_record.normal);
-        return glm::vec3(0.5) * Shade(Ray(hit_record.position, direction), ray_tmin, ray_tmax, scene,depth-1);
+        //glm::vec3 direction = hit_record.normal + random_unit_vec3();
+        //return glm::vec3(0.5) * Shade(Ray(hit_record.position, direction), ray_tmin, ray_tmax, scene,depth-1);
+
+        Ray scattered;
+        glm::vec3 attenuation;
+        if (hit_record.mat->scatter(ray, hit_record, attenuation, scattered))
+            return attenuation * Shade(scattered,  ray_tmin, ray_tmax, scene, depth - 1);
+        return glm::vec3(0, 0, 0);
     }
 
     glm::vec3 unit_direction = glm::normalize(ray.direction);
