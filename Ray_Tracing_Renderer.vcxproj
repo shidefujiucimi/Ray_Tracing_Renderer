@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="header\AABB.h" />
     <ClInclude Include="header\camera.h" />
     <ClInclude Include="header\common_header.h" />
     <ClInclude Include="header\hittable.h" />

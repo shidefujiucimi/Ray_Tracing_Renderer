@@ -79,5 +79,4 @@ inline bool near_zero(glm::vec3 e){
     return (std::fabs(e.x) < s) && (std::fabs(e.y) < s) && (std::fabs(e.z) < s);
 }
 
-
 #endif
