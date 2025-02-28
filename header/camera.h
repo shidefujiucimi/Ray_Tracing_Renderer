@@ -40,6 +40,8 @@ public:
 
     bool AA = false;
 
+    glm::vec3 background_color=glm::vec3(1.0);               // Scene background color
+
     Camera(glm::vec3 Positioninput);
     Camera(glm::vec3 Positioninput, glm::vec3 Rotationinput);
 
@@ -53,7 +55,7 @@ public:
 private:
     glm::vec3 calRight(glm::vec3 Front);
     void write_color(const glm::vec3& color, ofstream& outimage);
-    glm::vec3 Shade(const Ray& ray, double ray_tmin, double ray_tmax, const hittable_list& scene,int depth);
+    glm::vec3 Shade(const Ray& ray, int depth, const hittable_list& scene);
     void multisample(int i,int j, ofstream& outimage, hittable_list scene);
     Ray get_ray(int i, int j) const;
     glm::vec3 sample_square() const;

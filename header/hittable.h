@@ -1,6 +1,8 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 #include <common_header.h>
+#include <interval.h>
+#include <AABB.h>
 class material;
 class Hit_record {
 public:
@@ -22,6 +24,7 @@ public:
 class Hittable {
 public:
 	virtual ~Hittable() = default;
-	virtual bool hit(const Ray& r, double ray_tmin, double ray_tmax, Hit_record& rec)const = 0;
+	virtual bool hit(const Ray& r,interval ray_t, Hit_record& rec)const = 0;
+	virtual aabb bounding_box() const = 0;
 }; 
 #endif

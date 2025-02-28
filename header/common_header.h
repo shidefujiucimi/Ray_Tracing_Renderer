@@ -7,6 +7,7 @@
 #include <fstream>
 #include <limits>
 #include <memory>
+#include <algorithm>
 
 // Common Headers
 #include <ray.h>
@@ -36,10 +37,15 @@ inline double random_double() {
     static std::mt19937 generator;
     return distribution(generator);
 }
+
 inline double random_double(double min,double max) {
     static std::uniform_real_distribution<double> distribution(min, max);
     static std::mt19937 generator;
     return distribution(generator);
+}
+inline int random_int(int min, int max) {
+    // Returns a random integer in [min,max].
+    return int(random_double(min, max + 1));
 }
 static glm::vec3 random_vec3() {
     return glm::vec3(random_double(), random_double(), random_double());

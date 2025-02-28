@@ -1,44 +1,15 @@
 #ifndef AABB_H
 #define AABB_H
-#include<common_header.h>
-class interval {
-public:
-    float min, max;
-    interval() {
-        min = 0.0;
-        max = 0.0;
-    }
-    interval(float a, float b){
-        if (a <= b) {
-            min = a;
-            max = b;
-        } 
-        else {
-            min = b;
-            max = a;
-        }     
-    }
-
-    float size() const {
-        return max - min;
-    }
-    bool contains(double x) const {
-        return min <= x && x <= max;
-    }
-    bool surrounds(double x) const {
-        return min < x && x < max;
-    }
-
-    static const interval empty, universe;
-};
-const interval interval::empty = interval(+infinity, -infinity);
-const interval interval::universe = interval(-infinity, +infinity);
+#include <common_header.h>
+#include <interval.h>
 class aabb {
 public:
     interval x, y, z;
 
     aabb(){} 
-    aabb(const interval& x, const interval& y, const interval& z): x(x), y(y), z(z) {}
+    aabb(const interval& x, const interval& y, const interval& z): x(x), y(y), z(z) {
+        pad_to_minimums();
+    }
     aabb(const glm::vec3& a, const glm::vec3& b) {
         // Treat the two points a and b as extrema for the bounding box, so we don't require a
         // particular minimum/maximum coordinate order.
@@ -46,6 +17,14 @@ public:
         x = (a.x <= b.x) ? interval(a.x, b.x) : interval(b.x, a.x);
         y = (a.y <= b.y) ? interval(a.y, b.y) : interval(b.y, a.y);
         z = (a.z <= b.z) ? interval(a.z, b.z) : interval(b.z, a.z);
+
+        pad_to_minimums();
+    }
+    aabb(const aabb& box0, const aabb& box1) {
+        x = interval(box0.x, box1.x);
+        y = interval(box0.y, box1.y);
+        z = interval(box0.z, box1.z);
+        pad_to_minimums();
     }
 
     const interval& axis_interval(int n) const {
@@ -77,6 +56,19 @@ public:
                 return false;
         }
         return true;
+    }
+
+private:
+    void pad_to_minimums() {
+        // Adjust the AABB so that no side is narrower than some delta, padding if necessary.
+
+        double delta = 0.0001;
+        if (x.size() < delta) 
+            x.expand(delta);
+        if (y.size() < delta) 
+            y.expand(delta);
+        if (z.size() < delta) 
+            z.expand(delta);
     }
 };
 

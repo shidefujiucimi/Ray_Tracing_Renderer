@@ -1,7 +1,6 @@
 #ifndef MATRIAL_H
 #define MATRIAL_H
 #include <hittable.h>
-
 class material {
 public:
     virtual ~material() = default;
@@ -10,6 +9,10 @@ public:
         const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered
     ) const {
         return false;
+    }
+
+    virtual glm::vec3 emitted(const glm::vec3& p) const {
+        return glm::vec3(0, 0, 0);
     }
 };
 class lambertian : public material {
@@ -32,7 +35,6 @@ public:
 private:
     glm::vec3 albedo;
 };
-
 class metal : public material {
 public:
     metal(const glm::vec3& albedo,float fuzz) : albedo(albedo) ,fuzz(fuzz){}
@@ -90,6 +92,17 @@ private:
         r0 = r0 * r0;
         return r0 + (1 - r0) * std::pow((1 - cosine), 5);
     }
+};
+class diffuse_light : public material {
+public:
+    diffuse_light(){}
+
+    glm::vec3 emitted(const glm::vec3& p) const override {
+        return glm::vec3(0);
+    }
+
+private:
+    
 };
 
 #endif
