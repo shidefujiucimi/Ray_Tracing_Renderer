@@ -71,11 +71,11 @@ private:
             z.expand(delta);
     }
 };
-aabb operator+(const aabb& bbox, const glm::vec3& offset) {
+inline aabb operator+(const aabb& bbox, const glm::vec3& offset) {
     return aabb(bbox.x + offset.x, bbox.y + offset.y, bbox.z + offset.z);
 }
 
-aabb operator+(const glm::vec3& offset, const aabb& bbox) {
+inline aabb operator+(const glm::vec3& offset, const aabb& bbox) {
     return bbox + offset;
 }
 
