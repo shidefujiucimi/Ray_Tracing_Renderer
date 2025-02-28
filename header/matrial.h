@@ -95,14 +95,14 @@ private:
 };
 class diffuse_light : public material {
 public:
-    diffuse_light(){}
+    diffuse_light(glm::vec3 color):color(color){}
 
     glm::vec3 emitted(const glm::vec3& p) const override {
-        return glm::vec3(0);
+        return color;
     }
 
 private:
-    
+    glm::vec3 color;
 };
 
 #endif

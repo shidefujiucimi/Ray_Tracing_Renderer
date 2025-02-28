@@ -119,16 +119,16 @@ void cornell_box() {
     auto red = make_shared<lambertian>(glm::vec3(.65, .05, .05));
     auto white = make_shared<lambertian>(glm::vec3(.73, .73, .73));
     auto green = make_shared<lambertian>(glm::vec3(.12, .45, .15));
-    //auto light = make_shared<diffuse_light>(glm::vec3(15, 15, 15));
+    auto light = make_shared<diffuse_light>(glm::vec3(15, 15, 15));
 
     world.add(make_shared<quad>(glm::vec3(555, 0, 0), glm::vec3(0, 555, 0), glm::vec3(0, 0, 555), green));
     world.add(make_shared<quad>(glm::vec3(0, 0, 0), glm::vec3(0, 555, 0), glm::vec3(0, 0, 555), red));
-    //world.add(make_shared<quad>(glm::vec3(343, 554, 332), glm::vec3(-130, 0, 0), glm::vec3(0, 0, -105), light));
+    world.add(make_shared<quad>(glm::vec3(343, 554, 332), glm::vec3(-130, 0, 0), glm::vec3(0, 0, -105), light));
     world.add(make_shared<quad>(glm::vec3(0, 0, 0), glm::vec3(555, 0, 0), glm::vec3(0, 0, 555), white));
     world.add(make_shared<quad>(glm::vec3(555, 555, 555), glm::vec3(-555, 0, 0), glm::vec3(0, 0, -555), white));
     world.add(make_shared<quad>(glm::vec3(0, 0, 555), glm::vec3(555, 0, 0), glm::vec3(0, 555, 0), white));
 
-    Camera maincamera(glm::vec3(278, 278, -200), glm::vec3(0.0, 180, 0));
+    Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
     maincamera.AA = true;
     maincamera.samples_per_pixel = 20;

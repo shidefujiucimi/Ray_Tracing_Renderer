@@ -40,7 +40,7 @@ public:
 
     bool AA = false;
 
-    glm::vec3 background_color=glm::vec3(1.0);               // Scene background color
+    glm::vec3 background_color=glm::vec3(0.0);               // Scene background color
 
     Camera(glm::vec3 Positioninput);
     Camera(glm::vec3 Positioninput, glm::vec3 Rotationinput);
