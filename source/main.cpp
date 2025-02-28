@@ -128,6 +128,9 @@ void cornell_box() {
     world.add(make_shared<quad>(glm::vec3(555, 555, 555), glm::vec3(-555, 0, 0), glm::vec3(0, 0, -555), white));
     world.add(make_shared<quad>(glm::vec3(0, 0, 555), glm::vec3(555, 0, 0), glm::vec3(0, 555, 0), white));
 
+    world.add(box(glm::vec3(130, 0, 65), glm::vec3(295, 165, 230), white));
+    world.add(box(glm::vec3(265, 0, 295), glm::vec3(430, 330, 460), white));
+
     Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
     maincamera.AA = true;
