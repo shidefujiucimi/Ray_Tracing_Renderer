@@ -1,15 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <math.h>
-
 #include <hittable_list.h>
 #include <common_header.h>
 #include <matrial.h>
+#include <pdf.h>
 using namespace std;
 class Camera
 {

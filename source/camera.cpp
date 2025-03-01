@@ -155,22 +155,10 @@ glm::vec3 Camera::Shade(const Ray& ray, int depth,const hittable_list& scene) {
 
     if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered, pdf_value))
         return color_from_emission;
-    //sample from light
-    glm::vec3 on_light = glm::vec3(random_double(213, 343), 554, random_double(227, 332));
-    glm::vec3 to_light = on_light - hit_record.position;
-    float distance_squared = pow(length(to_light),2);
-    to_light = normalize(to_light);
 
-    if (dot(to_light, hit_record.normal) < 0)
-        return color_from_emission;
-
-    double light_area = (343 - 213) * (332 - 227);
-    float light_cosine = std::fabs(to_light.y);
-    if (light_cosine < 0.000001)
-        return color_from_emission;
-
-    pdf_value = distance_squared / (light_cosine * light_area);
-    scattered = Ray(hit_record.position, to_light);
+    cosine_pdf surface_pdf(hit_record.normal);
+    scattered = Ray(hit_record.position, surface_pdf.generate());
+    pdf_value = surface_pdf.value(scattered.direction);
 
     float scattering_pdf = hit_record.mat->scattering_pdf(ray, hit_record, scattered);
     //

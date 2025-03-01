@@ -3,6 +3,7 @@
 #include <common_header.h>
 #include <interval.h>
 #include <AABB.h>
+
 class material;
 class Hit_record {
 public:
@@ -26,6 +27,7 @@ public:
 	virtual ~Hittable() = default;
 	virtual bool hit(const Ray& r,interval ray_t, Hit_record& rec)const = 0;
 	virtual aabb bounding_box() const = 0;
+
 }; 
 class translate : public Hittable {
 public:
