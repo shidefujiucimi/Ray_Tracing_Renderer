@@ -84,5 +84,15 @@ inline bool near_zero(glm::vec3 e){
     auto s = 1e-8;
     return (std::fabs(e.x) < s) && (std::fabs(e.y) < s) && (std::fabs(e.z) < s);
 }
+inline glm::vec3 random_cosine_direction() {
+    auto r1 = random_double();
+    auto r2 = random_double();
 
+    auto phi = 2 * pi * r1;
+    auto x = std::cos(phi) * std::sqrt(r2);
+    auto y = std::sin(phi) * std::sqrt(r2);
+    auto z = std::sqrt(1 - r2);
+
+    return glm::vec3(x, y, z);
+}
 #endif

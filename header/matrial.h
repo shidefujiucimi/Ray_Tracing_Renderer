@@ -1,12 +1,13 @@
 #ifndef MATRIAL_H
 #define MATRIAL_H
 #include <hittable.h>
+#include <ONB.h>
 class material {
 public:
     virtual ~material() = default;
 
     virtual bool scatter(
-        const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered
+        const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf
     ) const {
         return false;
     }
@@ -14,22 +15,30 @@ public:
     virtual glm::vec3 emitted(const glm::vec3& p) const {
         return glm::vec3(0, 0, 0);
     }
+    virtual double scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered)
+        const {
+        return 0;
+    }
 };
 class lambertian : public material {
 public:
     lambertian(const glm::vec3& albedo) : albedo(albedo) {}
 
-    bool scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered)
-        const override {
-        glm::vec3 scatter_direction = rec.normal + random_unit_vec3();
+    bool scatter(
+        const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf
+    ) const override {
+        onb uvw(rec.normal);
+        auto scatter_direction = uvw.transform(random_cosine_direction());
 
-        // Catch degenerate scatter direction
-        if (near_zero(scatter_direction))
-            scatter_direction = rec.normal;
-
-        scattered = Ray(rec.position, scatter_direction);
+        scattered = Ray(rec.position, normalize(scatter_direction));
         attenuation = albedo;
+        pdf = dot(uvw.w(), scattered.direction) / pi;
         return true;
+    }
+
+    double scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered)
+        const override {
+        return 1 / (2 * pi);
     }
      
 private:
@@ -39,7 +48,7 @@ class metal : public material {
 public:
     metal(const glm::vec3& albedo,float fuzz) : albedo(albedo) ,fuzz(fuzz){}
 
-    bool scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered)
+    bool scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf)
         const override {
         glm::vec3 reflected = glm::reflect(r_in.direction, rec.normal);
         reflected = normalize(reflected) + (fuzz * random_unit_vec3());//fuzz
@@ -56,7 +65,7 @@ class dielectric : public material {
 public:
     dielectric(double refraction_index) : refraction_index(refraction_index) {}
 
-    bool scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered)
+    bool scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf)
         const override {
         attenuation = glm::vec3(1.0, 1.0, 1.0);
         float ri = rec.front_face ? (1.0 / refraction_index) : refraction_index;
@@ -104,6 +113,26 @@ public:
 private:
     glm::vec3 color;
 };
+class isotropic : public material {
+public:
+    isotropic(glm::vec3& albedo) : albedo(albedo) {}
 
+    bool scatter(
+        const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf
+    ) const override {
+        scattered = Ray(rec.position, random_unit_vec3());
+        attenuation = albedo;
+        pdf = 1 / (4 * pi);
+        return true;
+    }
+
+    double scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered)
+        const override {
+        return 1 / (4 * pi);
+    }
+
+private:
+    glm::vec3& albedo;
+};
 #endif
 

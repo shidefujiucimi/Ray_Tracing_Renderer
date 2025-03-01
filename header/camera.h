@@ -22,8 +22,8 @@ public:
     glm::vec3 Right = glm::vec3(1.0, 0.0, 0.0);
     glm::vec3 Up = glm::vec3(0.0, 1.0, 0.0);
 
-    int resolutionx = 1080;
-    int resolutiony = 720;
+    int resolutionx = 600;
+    int resolutiony = 600;
 
     float focal_length = 1.0f;//½¹¾à
     float fovy=45.0f;//fovy Specifies the field of view angle in the y direction

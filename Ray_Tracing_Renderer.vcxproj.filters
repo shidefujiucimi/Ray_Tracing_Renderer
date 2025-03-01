@@ -75,6 +75,9 @@
     <ClInclude Include="header\quad.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="header\ONB.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\camera.cpp">

@@ -150,12 +150,17 @@ glm::vec3 Camera::Shade(const Ray& ray, int depth,const hittable_list& scene) {
 
     Ray scattered;
     glm::vec3 attenuation;
+    float pdf_value;
     glm::vec3 color_from_emission = hit_record.mat->emitted(hit_record.position);
 
-    if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered))
+    if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered, pdf_value))
         return color_from_emission;
 
-    glm::vec3 color_from_scatter = attenuation * Shade(scattered, depth - 1, scene);
+    float scattering_pdf = hit_record.mat->scattering_pdf(ray, hit_record, scattered);
+    pdf_value = scattering_pdf;
+
+    glm::vec3 color_from_scatter =
+        (attenuation * scattering_pdf * Shade(scattered, depth - 1, scene)) / pdf_value;
 
     return color_from_emission + color_from_scatter;
 
