@@ -12,7 +12,7 @@ public:
         return false;
     }
 
-    virtual glm::vec3 emitted(const glm::vec3& p) const {
+    virtual glm::vec3 emitted(const glm::vec3& p, const Hit_record& rec) const {
         return glm::vec3(0, 0, 0);
     }
     virtual double scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered)
@@ -106,7 +106,9 @@ class diffuse_light : public material {
 public:
     diffuse_light(glm::vec3 color):color(color){}
 
-    glm::vec3 emitted(const glm::vec3& p) const override {
+    glm::vec3 emitted(const glm::vec3& p, const Hit_record& rec) const override {
+        if (!rec.front_face)
+            return glm::vec3(0);
         return color;
     }
 

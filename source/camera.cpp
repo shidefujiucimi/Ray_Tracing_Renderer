@@ -151,7 +151,7 @@ glm::vec3 Camera::Shade(const Ray& ray, int depth,const hittable_list& scene) {
     Ray scattered;
     glm::vec3 attenuation;
     float pdf_value;
-    glm::vec3 color_from_emission = hit_record.mat->emitted(hit_record.position);
+    glm::vec3 color_from_emission = hit_record.mat->emitted(hit_record.position, hit_record);
 
     if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered, pdf_value))
         return color_from_emission;
