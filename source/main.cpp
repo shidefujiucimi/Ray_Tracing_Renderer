@@ -67,7 +67,6 @@ void scene_random_spheres() {
     std::cout << "BVH finish" << std::endl;
     Camera maincamera(glm::vec3(7.0, 2.0, 3.0), glm::vec3(0.0, 45.0, 0.0));
 
-    maincamera.AA = true;
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
     maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
@@ -107,7 +106,7 @@ void scene_quads() {
 
     Camera maincamera(glm::vec3(0.0, 0.0, 9.0), glm::vec3(0.0, 0.0, 0.0));
 
-    maincamera.AA = true;
+    
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
     maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
@@ -138,10 +137,8 @@ void cornell_box() {
     box2 = make_shared<translate>(box2, glm::vec3(130, 0, 65));
     world.add(box2);
 
-
     Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
-    maincamera.AA = true;
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
     maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");

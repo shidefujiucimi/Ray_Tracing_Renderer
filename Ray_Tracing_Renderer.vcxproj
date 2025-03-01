@@ -157,7 +157,6 @@
     <ClCompile Include="source\BVH.cpp" />
     <ClCompile Include="source\camera.cpp" />
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\MSAA.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

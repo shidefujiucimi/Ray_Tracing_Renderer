@@ -37,5 +37,23 @@ public:
 private:
     onb uvw;
 };
+class hittable_pdf : public pdf {
+public:
+    hittable_pdf(const Hittable& objects, const glm::vec3& origin)
+        : objects(objects), origin(origin)
+    {}
+
+    double value(const glm::vec3& direction) const override {
+        return objects.pdf_value(origin, direction);
+    }
+
+    glm::vec3 generate() const override {
+        return objects.random(origin);
+    }
+
+private:
+    const Hittable& objects;
+    glm::vec3 origin;
+};
 
 #endif

@@ -13,6 +13,7 @@ public:
         normal = normalize(n);
         D = dot(normal, Q);
         w = n / dot(n, n);
+        area = length(n);
         set_bounding_box();
     }
 
@@ -70,6 +71,22 @@ public:
         //rec.v = b;
         return true;
     }
+    double pdf_value(const glm::vec3& origin, const glm::vec3& direction) const override {
+        Hit_record rec;
+        if (!this->hit(Ray(origin, direction), interval(0.001, infinity), rec))
+            return 0;
+
+        auto distance_squared = rec.t * rec.t * pow(length(direction),2);
+        auto cosine = std::fabs(dot(direction, rec.normal) / direction.length());
+
+        return distance_squared / (cosine * area);
+    }
+
+    glm::vec3 random(const glm::vec3& origin) const override {
+        auto p = Q + (float(random_double()) * u) + (float(random_double()) * v);
+        return p - origin;
+    }
+
 private:
     glm::vec3 Q;
     glm::vec3 u, v;
@@ -78,6 +95,7 @@ private:
     aabb bbox;
     glm::vec3 normal;
     double D;
+    double area;
 };
 
 inline shared_ptr<hittable_list> box(const glm::vec3& a, const glm::vec3& b, shared_ptr<material> mat)
