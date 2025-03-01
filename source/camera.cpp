@@ -152,10 +152,13 @@ glm::vec3 Camera::Shade(const Ray& ray, int depth,const hittable_list& scene) {
     glm::vec3 attenuation;
     float pdf_value;
     glm::vec3 color_from_emission = hit_record.mat->emitted(hit_record.position);
+
+    if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered, pdf_value))
+        return color_from_emission;
     //sample from light
     glm::vec3 on_light = glm::vec3(random_double(213, 343), 554, random_double(227, 332));
     glm::vec3 to_light = on_light - hit_record.position;
-    float distance_squared = length(to_light);
+    float distance_squared = pow(length(to_light),2);
     to_light = normalize(to_light);
 
     if (dot(to_light, hit_record.normal) < 0)
