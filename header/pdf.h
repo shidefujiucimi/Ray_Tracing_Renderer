@@ -11,45 +11,26 @@ public:
 };
 class sphere_pdf : public pdf {
 public:
-    sphere_pdf() {}
+    sphere_pdf();
 
-    double value(const glm::vec3& direction) const override {
-        return 1 / (4 * pi);
-    }
-
-    glm::vec3 generate() const override {
-        return random_unit_vec3();
-    }
+    double value(const glm::vec3& direction) const override;
+    glm::vec3 generate() const override;
 };
 class cosine_pdf : public pdf {
 public:
-    cosine_pdf(const glm::vec3& w) : uvw(w) {}
+    cosine_pdf(const glm::vec3& w);
 
-    double value(const glm::vec3& direction) const override {
-        auto cosine_theta = dot(normalize(direction), uvw.w());
-        return std::fmax(0, cosine_theta / pi);
-    }
-
-    glm::vec3 generate() const override {
-        return uvw.transform(random_cosine_direction());
-    }
-
+    double value(const glm::vec3& direction) const override;
+    glm::vec3 generate() const override;
 private:
     onb uvw;
 };
 class hittable_pdf : public pdf {
 public:
-    hittable_pdf(const Hittable& objects, const glm::vec3& origin)
-        : objects(objects), origin(origin)
-    {}
-
-    double value(const glm::vec3& direction) const override {
-        return objects.pdf_value(origin, direction);
-    }
-
-    glm::vec3 generate() const override {
-        return objects.random(origin);
-    }
+    hittable_pdf(const Hittable& objects, const glm::vec3& origin);
+     
+    double value(const glm::vec3& direction) const override;
+    glm::vec3 generate() const override;
 
 private:
     const Hittable& objects;

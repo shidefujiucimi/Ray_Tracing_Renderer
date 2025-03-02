@@ -160,6 +160,9 @@
     <ClCompile Include="source\interval.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\matrial.cpp" />
+    <ClCompile Include="source\ONB.cpp" />
+    <ClCompile Include="source\pdf.cpp" />
+    <ClCompile Include="source\quad and sphere.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
