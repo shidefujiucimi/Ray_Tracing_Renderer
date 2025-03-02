@@ -1,5 +1,4 @@
 #include <camera.h>
-
 using namespace std;
 
 Camera::Camera(glm::vec3 Positioninput) : Position(Positioninput) {

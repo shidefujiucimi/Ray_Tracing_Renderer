@@ -61,9 +61,10 @@ double quad::pdf_value(const glm::vec3& origin, const glm::vec3& direction) cons
     Hit_record rec;
     if (!this->hit(Ray(origin, direction), interval(0.001, infinity), rec))
         return 0;
-
-    auto distance_squared = rec.t * rec.t * pow(length(direction), 2);
-    auto cosine = std::fabs(dot(direction, rec.normal) / direction.length());
+    
+    auto distance = rec.t * length(direction);
+    auto distance_squared = distance* distance;
+    auto cosine = std::fabs(dot(direction, rec.normal) / length(direction));
 
     return distance_squared / (cosine * area);
 }
