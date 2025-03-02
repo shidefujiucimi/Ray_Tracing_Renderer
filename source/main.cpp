@@ -69,7 +69,7 @@ void scene_random_spheres() {
 
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
-    maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
+    //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
     //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
 
 }
@@ -109,7 +109,7 @@ void scene_quads() {
     
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
-    maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
+    //maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
     //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
 }
 void cornell_box() {
@@ -137,10 +137,14 @@ void cornell_box() {
     box2 = make_shared<translate>(box2, glm::vec3(130, 0, 65));
     world.add(box2);
 
+    // Light Sources
+    auto empty_material = shared_ptr<material>();
+    quad lights(glm::vec3(343, 554, 332), glm::vec3(-130, 0, 0), glm::vec3(0, 0, -105), empty_material);
+
     Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
     maincamera.samples_per_pixel = 20;
     maincamera.max_depth = 100;
-    maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm");
+    maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm",lights);
     //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
 }

@@ -43,12 +43,12 @@ public:
     void SetFocal(float focal);
     void SetZoom(float fovyinput);
     void SetResolution(float x, float y);
-    void RenderToimage(hittable_list& scene, const char* _Filename);
+    void RenderToimage(hittable_list& scene, const char* _Filename, const Hittable& lights);
 
 private:
     glm::vec3 calRight(glm::vec3 Front);
     void write_color(const glm::vec3& color, ofstream& outimage);
-    glm::vec3 Shade(const Ray& ray, int depth, const hittable_list& scene);
+    glm::vec3 Shade(const Ray& ray, int depth, const hittable_list& scene ,const Hittable& lights);
     Ray get_ray(int i, int j) const;
     glm::vec3 sample_square() const;
 };
