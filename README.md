@@ -1,6 +1,6 @@
 # Ray_Tracing_Renderer
 This is a ray tracing renderer,which is just a small attempt for me to learn compute graphics.  
-This project is based on [Ray Tracing in One Weekend series](https://raytracing.github.io/) and [GAMES 202](https://www.bilibili.com/video/BV1YK4y1T7yY?spm_id_from=333.788.videopod.episodes&vd_source=0b161e5216bf8f030851d89416923a9f&p=12). Their tutorials did help me a lot.
+This project is based on [Ray Tracing in One Weekend series](https://raytracing.github.io/) and [GAMES 202](https://www.bilibili.com/video/BV1YK4y1T7yY?spm_id_from=333.788.videopod.episodes&vd_source=0b161e5216bf8f030851d89416923a9f&p=12). Their tutorials did help me a lot.  
 The only external library I used is [GLM](https://glm.g-truc.net/0.9.8/index.html).
 ## How To Render
 You can check the main function,there are some examples.  
