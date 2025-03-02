@@ -158,28 +158,26 @@ glm::vec3 Camera::Shade(const Ray& ray, int depth,const hittable_list& scene ,co
     if (!scene.hit(ray, interval(0.001, infinity), hit_record))
         return background_color;
 
-    Ray scattered;
-    glm::vec3 attenuation;
-    float pdf_value;
+    scatter_record srec;
+    
     glm::vec3 color_from_emission = hit_record.mat->emitted(hit_record.position, hit_record);
 
-    if (!hit_record.mat->scatter(ray, hit_record, attenuation, scattered, pdf_value))
+    if (!hit_record.mat->scatter(ray, hit_record, srec))
         return color_from_emission;
 
-    //cosine_pdf surface_pdf(hit_record.normal);
-    //scattered = Ray(hit_record.position, surface_pdf.generate());
-    //pdf_value = surface_pdf.value(scattered.direction);
+    if (srec.skip_pdf) {
+        return srec.attenuation * Shade(srec.skip_pdf_ray, depth - 1, scene, lights);
+    }
 
-    hittable_pdf light_pdf(lights, hit_record.position);
-    scattered = Ray(hit_record.position, light_pdf.generate());
-    pdf_value = light_pdf.value(scattered.direction);
+    auto light_ptr = make_shared<hittable_pdf>(lights, hit_record.position);
+    mixture_pdf p(light_ptr, srec.pdf_ptr);
+
+    Ray scattered = Ray(hit_record.position, p.generate());
+    float pdf_value = p.value(scattered.direction);
 
     float scattering_pdf = hit_record.mat->scattering_pdf(ray, hit_record, scattered);
-    
-    
-    //glm::vec3 color_from_scatter =(attenuation * scattering_pdf * Shade(scattered, depth - 1, scene)) / pdf_value;
 
-    glm::vec3 color_from_scatter = (attenuation * scattering_pdf * Shade(scattered, depth - 1, scene, lights)) / pdf_value;
+    glm::vec3 color_from_scatter = (srec.attenuation * scattering_pdf * Shade(scattered, depth - 1, scene, lights)) / pdf_value;
 
     return color_from_emission + color_from_scatter;
 

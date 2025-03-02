@@ -1,30 +1,33 @@
 #include <matrial.h>
 lambertian::lambertian(const glm::vec3& albedo) : albedo(albedo) {}
-bool lambertian::scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf) const{
-    onb uvw(rec.normal);
-    auto scatter_direction = uvw.transform(random_cosine_direction());
-
-    scattered = Ray(rec.position, normalize(scatter_direction));
-    attenuation = albedo;
-    pdf = dot(uvw.w(), scattered.direction) / pi;
+bool lambertian::scatter(const Ray& r_in, const Hit_record& rec, scatter_record& srec) const{
+    srec.attenuation = albedo;
+    srec.pdf_ptr = make_shared<cosine_pdf>(rec.normal);
+    srec.skip_pdf = false;
     return true;
 }
 double lambertian::scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered) const {
-    return 1 / (2 * pi);
+    auto cos_theta = dot(rec.normal, normalize(scattered.direction));
+    return cos_theta < 0 ? 0 : cos_theta / pi;
 }
 
 metal::metal(const glm::vec3& albedo, float fuzz) : albedo(albedo), fuzz(fuzz) {}
-bool metal::scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf) const {
+bool metal::scatter(const Ray& r_in, const Hit_record& rec, scatter_record& srec) const {
     glm::vec3 reflected = glm::reflect(r_in.direction, rec.normal);
     reflected = normalize(reflected) + (fuzz * random_unit_vec3());//fuzz
-    scattered = Ray(rec.position, reflected);
-    attenuation = albedo;
-    return (dot(scattered.direction, rec.normal) > 0);
+    srec.attenuation = albedo;
+    srec.pdf_ptr = nullptr;
+    srec.skip_pdf = true;
+    srec.skip_pdf_ray = Ray(rec.position, reflected);
+
+    return true;
 }
 
 dielectric::dielectric(double refraction_index) : refraction_index(refraction_index) {}
-bool dielectric::scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf) const {
-    attenuation = glm::vec3(1.0, 1.0, 1.0);
+bool dielectric::scatter(const Ray& r_in, const Hit_record& rec, scatter_record& srec) const{
+    srec.attenuation = glm::vec3(1.0, 1.0, 1.0);
+    srec.pdf_ptr = nullptr;
+    srec.skip_pdf = true;
     float ri = rec.front_face ? (1.0 / refraction_index) : refraction_index;
     glm::vec3 unit_direction = glm::normalize(r_in.direction);
 
@@ -39,11 +42,8 @@ bool dielectric::scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& atte
     else
         direction = refract(unit_direction, rec.normal, ri);
 
-    scattered = Ray(rec.position, direction);
-
-    //glm::vec3 refracted = refract(unit_direction, rec.normal, ri);
-
-    //scattered = Ray(rec.position, refracted);
+    srec.skip_pdf_ray = Ray(rec.position, direction);
+    
     return true;
 }
 double dielectric::reflectance(double cosine, double refraction_index) {
@@ -61,10 +61,10 @@ glm::vec3 diffuse_light::emitted(const glm::vec3& p, const Hit_record& rec) cons
 }
 
 isotropic::isotropic(glm::vec3& albedo) : albedo(albedo) {}
-bool isotropic::scatter(const Ray& r_in, const Hit_record& rec, glm::vec3& attenuation, Ray& scattered, float& pdf) const{
-    scattered = Ray(rec.position, random_unit_vec3());
-    attenuation = albedo;
-    pdf = 1 / (4 * pi);
+bool isotropic::scatter(const Ray& r_in, const Hit_record& rec, scatter_record& srec) const{
+    srec.attenuation = albedo;
+    srec.pdf_ptr = make_shared<sphere_pdf>();
+    srec.skip_pdf = false;
     return true;
 }
 double isotropic::scattering_pdf(const Ray& r_in, const Hit_record& rec, const Ray& scattered)const{

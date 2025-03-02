@@ -25,3 +25,17 @@ double hittable_pdf::value(const glm::vec3& direction) const{
 glm::vec3 hittable_pdf::generate() const{
     return objects.random(origin);
 }
+
+mixture_pdf::mixture_pdf(shared_ptr<pdf> p0, shared_ptr<pdf> p1) {
+    p[0] = p0;
+    p[1] = p1;
+}
+double mixture_pdf::value(const glm::vec3& direction) const{
+    return 0.5 * p[0]->value(direction) + 0.5 * p[1]->value(direction);
+}
+glm::vec3 mixture_pdf::generate() const{
+    if (random_double() < 0.5)
+        return p[0]->generate();
+    else
+        return p[1]->generate();
+}

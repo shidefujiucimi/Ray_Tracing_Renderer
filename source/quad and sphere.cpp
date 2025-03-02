@@ -129,3 +129,35 @@ bool Sphere::hit(const Ray& r, interval ray_t, Hit_record& rec)const{
 
 }
 aabb Sphere::bounding_box() const{ return bbox; }
+double Sphere::pdf_value(const glm::vec3& origin, const glm::vec3& direction) const{
+    // This method only works for stationary spheres.
+
+    Hit_record rec;
+    if (!this->hit(Ray(origin, direction), interval(0.001, infinity), rec))
+        return 0;
+
+    auto dist = length(center.at(0) - origin);
+    auto dist_squared = dist * dist;
+    auto cos_theta_max = std::sqrt(1 - radius * radius / dist_squared);
+    auto solid_angle = 2 * pi * (1 - cos_theta_max);
+
+    return  1 / solid_angle;
+}
+glm::vec3 Sphere::random(const glm::vec3& origin) const{
+    glm::vec3 direction = center.at(0) - origin;
+    auto distance = length(direction);
+    auto distance_squared = distance * distance;
+    onb uvw(direction);
+    return uvw.transform(random_to_sphere(radius, distance_squared));
+}
+glm::vec3 Sphere::random_to_sphere(double radius, double distance_squared) {
+    auto r1 = random_double();
+    auto r2 = random_double();
+    auto z = 1 + r2 * (std::sqrt(1 - radius * radius / distance_squared) - 1);
+
+    auto phi = 2 * pi * r1;
+    auto x = std::cos(phi) * std::sqrt(1 - z * z);
+    auto y = std::sin(phi) * std::sqrt(1 - z * z);
+
+    return glm::vec3(x, y, z);
+}

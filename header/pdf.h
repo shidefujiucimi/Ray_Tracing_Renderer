@@ -36,5 +36,13 @@ private:
     const Hittable& objects;
     glm::vec3 origin;
 };
+class mixture_pdf : public pdf {
+public:
+    mixture_pdf(shared_ptr<pdf> p0, shared_ptr<pdf> p1);
 
+    double value(const glm::vec3& direction) const override;
+    glm::vec3 generate() const override;
+private:
+    shared_ptr<pdf> p[2];
+};
 #endif

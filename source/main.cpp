@@ -127,15 +127,20 @@ void cornell_box() {
     world.add(make_shared<quad>(glm::vec3(555, 555, 555), glm::vec3(-555, 0, 0), glm::vec3(0, 0, -555), white));
     world.add(make_shared<quad>(glm::vec3(0, 0, 555), glm::vec3(555, 0, 0), glm::vec3(0, 555, 0), white));
 
+    //shared_ptr<material> aluminum = make_shared<metal>(glm::vec3(0.8, 0.85, 0.88), 0.0);
     shared_ptr<Hittable> box1 = box(glm::vec3(0, 0, 0), glm::vec3(165, 330, 165), white);
-    box1 = make_shared<rotate_y>(box1, 15);
+    box1 = make_shared<rotate_y>(box1, 30);
     box1 = make_shared<translate>(box1, glm::vec3(265, 0, 295));
     world.add(box1);
 
-    shared_ptr<Hittable> box2 = box(glm::vec3(0, 0, 0), glm::vec3(165, 165, 165), white);
-    box2 = make_shared<rotate_y>(box2, -18);
-    box2 = make_shared<translate>(box2, glm::vec3(130, 0, 65));
-    world.add(box2);
+    // Glass Sphere
+    auto glass = make_shared<dielectric>(1.5);
+    world.add(make_shared<Sphere>(glm::vec3(190, 90, 220), 90, glass));
+
+    //shared_ptr<Hittable> box2 = box(glm::vec3(0, 0, 0), glm::vec3(165, 165, 165), white);
+    //box2 = make_shared<rotate_y>(box2, -36);
+    //box2 = make_shared<translate>(box2, glm::vec3(130, 0, 65));
+    //world.add(box2);
 
     // Light Sources
     auto empty_material = shared_ptr<material>();
@@ -143,7 +148,7 @@ void cornell_box() {
 
     Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
-    maincamera.samples_per_pixel = 20;
+    maincamera.samples_per_pixel = 50;
     maincamera.max_depth = 100;
     maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm",lights);
     //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
