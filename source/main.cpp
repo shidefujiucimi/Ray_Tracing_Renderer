@@ -149,7 +149,7 @@ void cornell_box() {
     Camera maincamera(glm::vec3(278, 278, -300), glm::vec3(0.0, 180, 0));
 
     maincamera.samples_per_pixel = 50;
-    maincamera.max_depth = 100;
+    maincamera.max_depth = 50;
     maincamera.RenderToimage(world, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.ppm",lights);
     //maincamera.RenderToimage(mainscene, "D:/VS project/Ray_Tracing_Renderer/out image/outimage.txt");
 }
