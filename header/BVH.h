@@ -2,15 +2,12 @@
 #define BVH_H
 
 #include <aabb.h>
-#include <hittable_list.h>
+#include <hittable.h>
 
 class bvh_node : public Hittable {
 public:
     bvh_node(hittable_list list) : bvh_node(list.objects, 0, list.objects.size()) {
-        // There's a C++ subtlety here. This constructor (without span indices) creates an
-        // implicit copy of the hittable list, which we will modify. The lifetime of the copied
-        // list only extends until this constructor exits. That's OK, because we only need to
-        // persist the resulting bounding volume hierarchy.
+        
     };
     bvh_node(std::vector<shared_ptr<Hittable>>& objects, size_t start, size_t end);
     bool hit(const Ray& r, interval ray_t, Hit_record& rec) const override;

@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <hittable_list.h>
+#include <hittable.h>
 #include <common_header.h>
 #include <matrial.h>
 #include <pdf.h>

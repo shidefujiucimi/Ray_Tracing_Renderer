@@ -1,6 +1,6 @@
 #ifndef PDF_H
 #define PDF_H
-#include <hittable_list.h>
+#include <hittable.h>
 #include <onb.h>
 class pdf {
 public:

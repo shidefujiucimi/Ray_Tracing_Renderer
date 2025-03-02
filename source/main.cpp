@@ -1,6 +1,6 @@
 #include <common_header.h>
 #include <camera.h>
-#include <hittable_list.h>
+#include <hittable.h>
 #include <sphere.h>
 #include <quad.h>
 #include <BVH.h>
